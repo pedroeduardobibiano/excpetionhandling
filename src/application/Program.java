@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import model.entities.Account;
+import model.exception.Domain;
 
 public class Program {
 
@@ -12,22 +13,30 @@ public class Program {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
 
-		System.out.print("Enter account data");
+		System.out.println("Enter account data ");
 
-		System.out.println("Number: ");
+		System.out.print("Number: ");
 		int number = sc.nextInt();
-		System.out.println("Holder: ");
-		String holder = sc.nextLine();
-		System.out.println("initial balance: ");
+		System.out.print("Holder: ");
+		String holder = sc.next();
+		sc.nextLine();
+		System.out.print("initial balance: ");
 		Double initialBalance = sc.nextDouble();
-		System.out.println("Withdraw limit: ");
+		System.out.print("Withdraw limit: ");
 		Double withdrawlimit = sc.nextDouble();
 		Account ac = new Account(number, holder, initialBalance, withdrawlimit);
 
-		System.out.println("Enter amount withdraw: ");
-		Double enterAmount = sc.nextDouble();
-		System.out.println("New balance: ");
+		System.out.println("");
+		System.out.print("Enter amount for withdraw: ");
+		Double amount = sc.nextDouble();
 
+		try {
+			ac.withdraw(amount);
+			System.out.println("New balance " + String.format("%.2f", ac.getBalance()));
+			//ou ----  System.out.print(ac); ---- \\
+		} catch (Domain e) {
+			System.out.print("withdraw error" + e.getMessage());
+		}
 		sc.close();
 	}
 
